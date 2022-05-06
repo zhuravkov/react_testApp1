@@ -1,9 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import postsReducer from './../features/posts/postsSlice';
+
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    postsReducer,
   },
 });
 
@@ -15,3 +16,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+// @ts-ignore
+window.__store__ = store
+
+
+export default store
