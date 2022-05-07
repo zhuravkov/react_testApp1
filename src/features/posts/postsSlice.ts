@@ -16,6 +16,7 @@ type PostsState = {
     posts: PostType[]
     totalPostsCount : number
     pageSize : number
+    currentPage: number
     searchParam : string
 }
 
@@ -24,6 +25,7 @@ const initialState:PostsState= {
   posts : [],
   totalPostsCount : 0,
   pageSize : 10,
+  currentPage: 1,
   searchParam: ''  
 };
 
@@ -38,12 +40,15 @@ export const postsSlice = createSlice({
     },
     searching: (state,action: PayloadAction<string>) => {
         state.searchParam = action.payload
+    },
+    setCurrentPage: (state,action: PayloadAction<number>) => {
+        state.currentPage = action.payload
     }
-
   }
 });
 
-export const { setPosts, searching } = postsSlice.actions;
+export const { setPosts, searching, setCurrentPage } = postsSlice.actions;
+
 
 
 export const selectPosts = (state: RootState) => {
@@ -59,7 +64,9 @@ export const selectPosts = (state: RootState) => {
 
 
 
-export const selectTotalPostsCount = (state: RootState) => state.postsReducer.totalPostsCount;
+
+export const selectCurrentPage = (state: RootState) => state.postsReducer.currentPage;
+export const selectPageSize = (state: RootState) => state.postsReducer.pageSize;
 
 
 // async get posts and dispatch them to state
