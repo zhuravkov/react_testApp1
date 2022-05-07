@@ -1,19 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-
-import  './App.css';
-import { Search } from './features/search/Search';
+import { Routes, Route} from "react-router-dom";
+import './App.css';
 import { Posts } from './features/posts/Posts';
-import { getPostsThunk, selectPosts } from './features/posts/postsSlice';
-import { useAppDispatch, useAppSelector } from './app/hooks';
+
 
 
 function App() {
     return (
         <div className="App">
-            <Posts />
+            <Routes>
+                <Route path="/" element={<Posts />} />
+            </Routes>
         </div>
-
     );
 }
 

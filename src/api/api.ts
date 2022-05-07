@@ -7,7 +7,7 @@ const instance = axios.create({
 
 
 export const postsAPI = {
-    async getPosts () {
+    async getPosts() {
         const response = await instance.get<PostType[]>(`posts`);
         return response.data;
     }
