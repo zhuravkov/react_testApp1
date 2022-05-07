@@ -8,16 +8,24 @@ export type PostType = {
     id: number
     title: string
     body: string
+    
 }
 
 
 type PostsState = {
     posts: PostType[]
+    totalPostsCount : number
+    pageSize : number
+    searchParam : string
 }
 
 
 const initialState:PostsState= {
-  posts : [] };
+  posts : [],
+  totalPostsCount : 0,
+  pageSize : 10,
+  searchParam: ''  
+};
 
 
 export const postsSlice = createSlice({
@@ -26,14 +34,32 @@ export const postsSlice = createSlice({
   reducers: {
     setPosts: (state, action: PayloadAction<PostType[]>) => {
       state.posts = action.payload;
+      state.totalPostsCount = state.posts.length
+    },
+    searching: (state,action: PayloadAction<string>) => {
+        state.searchParam = action.payload
     }
+
   }
 });
 
-export const { setPosts } = postsSlice.actions;
+export const { setPosts, searching } = postsSlice.actions;
 
 
-export const selectPosts = (state: RootState) => state.postsReducer.posts;
+export const selectPosts = (state: RootState) => {
+    if (state.postsReducer.searchParam.length > 0) {
+        let postsWithSearch = state.postsReducer.posts.filter(p =>
+            p.body.includes(state.postsReducer.searchParam)
+            || p.title.includes(state.postsReducer.searchParam)
+            || String(p.id).includes(state.postsReducer.searchParam) )
+        return postsWithSearch
+    }
+    else return state.postsReducer.posts
+}
+
+
+
+export const selectTotalPostsCount = (state: RootState) => state.postsReducer.totalPostsCount;
 
 
 // async get posts and dispatch them to state
