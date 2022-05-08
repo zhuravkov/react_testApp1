@@ -43,12 +43,13 @@ export const Paginator: React.FC<PropsType> = ({ totalItemsCount, currentPage, p
             let a=Math.ceil(pageInParams / portionSize)
             setPortionNumber(a)
         }
-    }, [totalItemsCount])
+    }, [pageInParams,dispatch,setPortionNumber,portionSize])
 
     // Paginator's Current Page put in PARAMS
     useEffect(() => {
         setSearchParams({ page: `${currentPage}` })
-    }, [currentPage])
+    }, [currentPage,setSearchParams])
+
 
     return <div>
         <button onClick={() => dispatch(setCurrentPage(currentPage - 1))} 
