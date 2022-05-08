@@ -13,19 +13,21 @@ export type PostType = {
 
 type PostsState = {
     posts: PostType[]
-    totalPostsCount: number
     pageSize: number
     currentPage: number
     searchParam: string
+    isLoading: boolean
+    error:string
 }
 
 
 const initialState: PostsState = {
     posts: [],
-    totalPostsCount: 0,
     pageSize: 10,
     currentPage: 1,
-    searchParam: ''
+    searchParam: '',
+    isLoading: false,
+    error: ''
 };
 
 
@@ -33,10 +35,22 @@ export const postsSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
-        setPosts: (state, action: PayloadAction<PostType[]>) => {
-            state.posts = action.payload;
-            state.totalPostsCount = state.posts.length
+
+        postsFetching: (state) =>{
+            state.isLoading = true
         },
+
+        setPosts: (state, action: PayloadAction<PostType[]>) => {
+            state.isLoading = false
+            state.error = ''
+            state.posts = action.payload
+        },
+
+        postsFetchingError: (state, action:PayloadAction<string>) =>{
+            state.isLoading = false
+            state.error = action.payload
+        },
+
         searching: (state, action: PayloadAction<string>) => {
             state.searchParam = action.payload
         },
@@ -75,14 +89,21 @@ export const selectPosts = (state: RootState) => {
 }
 
 
-export const selectCurrentPage = (state: RootState) => state.postsReducer.currentPage;
-export const selectPageSize = (state: RootState) => state.postsReducer.pageSize;
-
 
 // async get posts and dispatch them to state
 export const getPostsThunk = (): AppThunk => async (dispatch) => {
-    let payload = await postsAPI.getPosts();
-    dispatch(setPosts(payload));
+   try {
+       dispatch(postsSlice.actions.postsFetching())
+       let payload = await postsAPI.getPosts();
+        dispatch(setPosts(payload));
+   }
+
+   catch (e:any) {
+       dispatch(postsSlice.actions.postsFetchingError(e.message))
+   }
+   
+   
+    
 }
 
 

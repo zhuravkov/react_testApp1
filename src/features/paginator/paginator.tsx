@@ -14,7 +14,6 @@ type PropsType = {
 
 export const Paginator: React.FC<PropsType> = ({ totalItemsCount, currentPage, pageSize }) => {
 
-
     const dispatch = useAppDispatch()
     let portionSize = 5
 

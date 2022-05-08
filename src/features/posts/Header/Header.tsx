@@ -4,7 +4,7 @@ import { sortPosts } from "../postsSlice"
 
 export const Header = () => {
     let dispatch = useAppDispatch()
-    console.log('Render Heder')
+
     return (
         <tr>
             <th>

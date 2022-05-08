@@ -4,19 +4,20 @@ import {Paginator} from '../paginator/paginator';
 import { Search } from '../search/Search';
 import { Header } from './Header/Header';
 import { PostItem } from './PostItem/PostItem';
-import { getPostsThunk,selectPosts, selectCurrentPage, selectPageSize } from './postsSlice';
+import { getPostsThunk,selectPosts } from './postsSlice';
 import styles from './Posts.module.css';
 
 
 
 export const Posts = React.memo(() => {
-    let posts = useAppSelector(selectPosts)
-    let currentPage = useAppSelector(selectCurrentPage)
-    let pageSize = useAppSelector(selectPageSize)
     let dispatch = useAppDispatch()
 
-    let totalPostsCount = posts.length
+    let posts = useAppSelector(selectPosts)
 
+    const {currentPage, pageSize, isLoading, error} = useAppSelector(state => state.postsReducer)
+
+    
+    let totalPostsCount = posts.length
 
     // Do slices from origin posts
     let sliceStart = Math.ceil((currentPage - 1) * 100 / pageSize)
@@ -28,9 +29,9 @@ export const Posts = React.memo(() => {
         dispatch(getPostsThunk())
     }, [dispatch])
 
-
     return (
         <div>
+
             <Search />
             <table>
                 <thead>
@@ -44,7 +45,11 @@ export const Posts = React.memo(() => {
                         userId={p.userId} />
                     )}
                 </tbody>
-            </table>
+            </table>    
+
+            {isLoading && <h1>Идёт загрузка...</h1> }
+            {error && <h1>{error}</h1> }
+
             <Paginator totalItemsCount={totalPostsCount}
                 currentPage={currentPage}
                 pageSize={pageSize} />
