@@ -12,6 +12,7 @@ export const Search = () => {
     // ENTER press 
     let onEnter=(target:any)=> {
         dispatch(searching(tempSearch))
+        dispatch(setCurrentPage(1))
       }
 
 
