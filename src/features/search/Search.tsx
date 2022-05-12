@@ -26,7 +26,7 @@ export const Search = () => {
                 />
                 
             <img src={SearchItem} onClick={() => {
-                dispatch(searching(tempSearch));
+                dispatch(searching(tempSearch))
                 dispatch(setCurrentPage(1))
             }}/>
         </div>
