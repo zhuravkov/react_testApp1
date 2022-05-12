@@ -17,7 +17,7 @@ type PostsState = {
     currentPage: number
     searchParam: string
     isLoading: boolean
-    error:string
+    error: string
 }
 
 
@@ -36,7 +36,7 @@ export const postsSlice = createSlice({
     initialState,
     reducers: {
 
-        postsFetching: (state) =>{
+        postsFetching: (state) => {
             state.isLoading = true
         },
 
@@ -46,7 +46,7 @@ export const postsSlice = createSlice({
             state.posts = action.payload
         },
 
-        postsFetchingError: (state, action:PayloadAction<string>) =>{
+        postsFetchingError: (state, action: PayloadAction<string>) => {
             state.isLoading = false
             state.error = action.payload
         },
@@ -58,21 +58,21 @@ export const postsSlice = createSlice({
             state.currentPage = action.payload
         },
 
-        sortPosts:(state,action: PayloadAction<string>) => {
+        sortPosts: (state, action: PayloadAction<string>) => {
             state.posts.sort(SortArray(action.payload))
         }
     }
 });
 
 // sorting help func
-const SortArray = (param:string) => (x:any, y:any)=>{
-    if (x[param] < y[param]) {return -1;}
-    if (x[param] > y[param]) {return 1;}
+const SortArray = (param: string) => (x: any, y: any) => {
+    if (x[param] < y[param]) { return -1; }
+    if (x[param] > y[param]) { return 1; }
     return 0;
 }
 
 // Export AC
-export const { setPosts, searching, setCurrentPage,sortPosts } = postsSlice.actions;
+export const { setPosts, searching, setCurrentPage, sortPosts } = postsSlice.actions;
 
 
 // selecting posts from origins 
@@ -92,18 +92,15 @@ export const selectPosts = (state: RootState) => {
 
 // async get posts and dispatch them to state
 export const getPostsThunk = (): AppThunk => async (dispatch) => {
-   try {
-       dispatch(postsSlice.actions.postsFetching())
-       let payload = await postsAPI.getPosts();
+    try {
+        dispatch(postsSlice.actions.postsFetching())
+        let payload = await postsAPI.getPosts();
         dispatch(setPosts(payload));
-   }
+    }
 
-   catch (e:any) {
-       dispatch(postsSlice.actions.postsFetchingError(e.message))
-   }
-   
-   
-    
+    catch (e: any) {
+        dispatch(postsSlice.actions.postsFetchingError(e.message))
+    }
 }
 
 

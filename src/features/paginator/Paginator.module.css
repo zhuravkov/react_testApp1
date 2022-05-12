@@ -1,17 +1,50 @@
-
-.paginator {
-    margin: 10px;
+.pagination__container {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
+
+
+.block {
+    background: transparent;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 137.69%;
+    /* identical to box height, or 33px */
+    color: #474955;
+    cursor: pointer;
+    caret-color: transparent !important;
+}
+
+
+
+.pagination__container button:disabled {
+    color: silver;
+}
+
+
 
 .pageNumber {
-    padding: 2px;
-    border: 1px solid grey;
+    padding: 5px;
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 137.69%;
+    /* identical to box height, or 25px */
 }
 
 
-.selectedPage{
-    color: darkorange;
+.selectedPage {
+    color: #7EBC3C;
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 137.69%;
     font-weight: bold;
-
-    border: 1px solid black;
 }

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import {Paginator} from '../paginator/paginator';
+import { Paginator } from '../paginator/paginator';
 import { Search } from '../search/Search';
 import { Header } from './Header/Header';
 import { PostItem } from './PostItem/PostItem';
-import { getPostsThunk,selectPosts } from './postsSlice';
+import { getPostsThunk, selectPosts } from './postsSlice';
 import styles from './Posts.module.css';
 
 
@@ -14,9 +14,9 @@ export const Posts = React.memo(() => {
 
     let posts = useAppSelector(selectPosts)
 
-    const {currentPage, pageSize, isLoading, error} = useAppSelector(state => state.postsReducer)
+    const { currentPage, pageSize, isLoading, error } = useAppSelector(state => state.postsReducer)
 
-    
+
     let totalPostsCount = posts.length
 
     // Do slices from origin posts
@@ -30,25 +30,27 @@ export const Posts = React.memo(() => {
     }, [dispatch])
 
     return (
-        <div>
-
+        <div className={styles.PostsContainer}>
             <Search />
-            <table>
-                <thead>
-                    <Header />
-                </thead>
-                <tbody>
-                    {postsOnPage.map(p => <PostItem key={p.id}
-                        id={p.id}
-                        title={p.title}
-                        body={p.body}
-                        userId={p.userId} />
-                    )}
-                </tbody>
-            </table>    
+            {totalPostsCount > 0
+                ? <table>
+                    <thead>
+                        <Header />
+                    </thead>
+                    <tbody>
+                        {postsOnPage.map(p => <PostItem key={p.id}
+                            id={p.id}
+                            title={p.title}
+                            body={p.body}
+                            userId={p.userId} />
+                        )}
+                    </tbody>
+                </table>
+                : <h2>no matching</h2>}
 
-            {isLoading && <h1>Идёт загрузка...</h1> }
-            {error && <h1>{error}</h1> }
+
+            {isLoading && <h1>Идёт загрузка...</h1>}
+            {error && <h1>{error}</h1>}
 
             <Paginator totalItemsCount={totalPostsCount}
                 currentPage={currentPage}

@@ -1,6 +1,7 @@
 import React from "react"
 import { useAppDispatch } from "../../../app/hooks"
 import { sortPosts } from "../postsSlice"
+import styles from '.././Posts.module.css';
 
 export const Header = () => {
     let dispatch = useAppDispatch()
@@ -8,13 +9,13 @@ export const Header = () => {
     return (
         <tr>
             <th>
-                <button onClick={()=> dispatch(sortPosts('id')) }>ID</button>
+                <span className={styles.sorting} onClick={() => dispatch(sortPosts('id'))}>ID</span>
             </th>
             <th>
-            <button onClick={()=> dispatch(sortPosts('title')) }>Заголовок</button>
+                <span className={styles.sorting} onClick={() => dispatch(sortPosts('title'))}>Заголовок</span>
             </th>
             <th>
-                <button onClick={()=> dispatch(sortPosts('body')) }>Описание</button>
+                <span className={styles.sorting} onClick={() => dispatch(sortPosts('body'))}>Описание</span>
             </th>
         </tr>
     )

@@ -42,40 +42,42 @@ export const Paginator: React.FC<PropsType> = ({ totalItemsCount, currentPage, p
             let a=Math.ceil(pageInParams / portionSize)
             setPortionNumber(a)
         }
-    }, [pageInParams,dispatch,setPortionNumber,portionSize])
+    }, [pageInParams, dispatch, setPortionNumber, portionSize])
 
     // Paginator's Current Page put in PARAMS
     useEffect(() => {
         setSearchParams({ page: `${currentPage}` })
-    }, [currentPage,setSearchParams])
+    }, [currentPage, setSearchParams])
 
 
-    return <div>
-        <button onClick={() => dispatch(setCurrentPage(currentPage - 1))} 
-        disabled={currentPage === leftPortionPageNumber} >Назад</button>
-
+    return <div className={s.pagination__container}>
+        <button className={s.block} 
+        onClick={() => dispatch(setCurrentPage(currentPage - 1))}
+            disabled={currentPage === leftPortionPageNumber} >Назад</button>
+        <span className={s.block} >
         {portionNumber > 1 &&
-            <button onClick={() => {
+            <span onClick={() => {
                 setPortionNumber(portionNumber - 1);
                 dispatch(setCurrentPage(leftPortionPageNumber - 1))
-            }} >...</button>}
+            }} >...</span>}
+        
+            {pages
+                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                .map(p => {
+                    return <span key={p} className={`${currentPage === p ? s.selectedPage : s.pageNumber}`}
+                        onClick={(e) => { dispatch(setCurrentPage(p)) }}>{p}</span>
+                })}
 
-        {pages
-            .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-            .map(p => {
-                return <span key={p} className={`${currentPage === p ? s.selectedPage : s.pageNumber}`}
-                    onClick={(e) => { dispatch(setCurrentPage(p)) }}>{p}</span>
-            })}
-
-        {portionCount > portionNumber &&
-            <button onClick={() => {
-                setPortionNumber(portionNumber + 1);
-                dispatch(setCurrentPage(rightPortionPageNumber + 1))
-            }} >...</button>}
-
-        <button onClick={() => dispatch(setCurrentPage(currentPage + 1))} 
-        disabled={currentPage === rightPortionPageNumber
-            || currentPage === pages.length
-            || !pages.length}>Далее</button>
+            {portionCount > portionNumber &&
+                <span onClick={() => {
+                    setPortionNumber(portionNumber + 1);
+                    dispatch(setCurrentPage(rightPortionPageNumber + 1))
+                }} >...</span>}
+        </span>
+        <button className={s.block} 
+        onClick={() => dispatch(setCurrentPage(currentPage + 1))}
+            disabled={currentPage === rightPortionPageNumber
+                || currentPage === pages.length
+                || !pages.length}>Далее</button>
     </div>
 }
